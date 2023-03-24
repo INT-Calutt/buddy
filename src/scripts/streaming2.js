@@ -220,7 +220,12 @@ const MODELS_URL = 'https://api.openai.com/v1/models';
 const OPENAI_API_KEY_STORAGE = 'OPENAI_API_KEY';
 const OPENAI_MODEL_STORAGE = 'OPENAI_MODEL';
 
-export const chatHistory = [];
+export let chatHistory = [];
+export let processingRequest = false;
+
+export function clearHistory() {
+	chatHistory = [];
+}
 
 export function setModel(model) {
 	localStorage.setItem(OPENAI_MODEL_STORAGE, model);
@@ -296,6 +301,8 @@ export async function answerPrompt(prompt, context = null, useHistory = true) {
 		throw 'apikey and model needs to be set';
 	}
 
+	processingRequest = true;
+
 	let messages = [];
 
 	if (useHistory) {
@@ -317,6 +324,8 @@ export async function answerPrompt(prompt, context = null, useHistory = true) {
 	if (contextMessage !== null) chatHistory.push(contextMessage);
 	chatHistory.push(responseMessage);
 
+	processingRequest = false;
+
 	return responseMessage['content'];
 }
 
@@ -333,6 +342,8 @@ export function streamResponseFromOpenAI(
 	if (apiKey === null || model === null) {
 		throw 'apikey and model needs to be set';
 	}
+
+	processingRequest = true;
 
 	let messages = [];
 
@@ -373,6 +384,7 @@ export function streamResponseFromOpenAI(
 				role: 'assistant',
 				content: newContent,
 			});
+			processingRequest = false;
 		} else {
 			const data = JSON.parse(event.data);
 			const delta = data['choices'][0]['delta'];
@@ -380,6 +392,7 @@ export function streamResponseFromOpenAI(
 
 			if (finishReason == 'stop') {
 				es.close();
+				processingRequest = false;
 			} else {
 				if (delta && delta['content']) {
 					newContent = newContent + delta['content'];
