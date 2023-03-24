@@ -16,6 +16,7 @@ if (body) {
 }
 
 const container = document.getElementById('buddy-root-23323');
+
 const root = createRoot(container!);
 
 root.render(
@@ -23,3 +24,9 @@ root.render(
 		<App />
 	</React.StrictMode>
 );
+
+//  const hostElement = document.getElementById('host-element');
+// 	const childElement = document.createElement('p');
+//  const shadowRoot = hostElement.attachShadow({ mode: 'open' });
+// 	childElement.textContent = 'This is a paragraph inside the shadow DOM!';
+// 	shadowRoot.appendChild(childElement);

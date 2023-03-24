@@ -1,0 +1,11 @@
+.buddy-flex {
+	display: flex;
+
+	&.flex-col {
+		flex-direction: column;
+	}
+
+	&.jc--sb {
+		justify-content: space-between;
+	}
+}

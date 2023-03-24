@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TrashIcon from '../images/trash.svg';
 import SendIcon from '../images/send.svg';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { setModel, setApiKey, answerPrompt, streamResponseFromOpenAI, chatHistory } from '../scripts/streaming2.js';
 
 const Chat = () => {
@@ -106,7 +105,7 @@ const Chat = () => {
 		}
 	};
 
-	const renderQA = (): ReactJSXElement => {
+	const renderQA = () => {
 		return chatHistory.map((qaObj: { role: string; content: string }, index: number) => {
 			if (index === chatHistory.length - 1 || (qaObj.role === 'user' && index === chatHistory.length - 2)) {
 				return;

@@ -1,7 +1,8 @@
 .main-view {
-	width: 520px;
+	width: 50rem;
 	background-color: #111a2b;
 	margin: 0 0.5rem;
 	border-radius: 0.8rem;
-	box-shadow: $shadow-1;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), 0px 4px 8px rgba(0, 0, 0, 0.15), 0px 8px 16px rgba(0, 0, 0, 0.1);
+	border: 1px solid $color-disabled-dark-theme;
 }

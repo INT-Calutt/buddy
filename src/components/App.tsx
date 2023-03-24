@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import LeftPane from './LeftPane';
 import MainView from './MainView';
-import Pane from './Pane';
+import RightPane from './RightPane';
 
 const App = () => {
-	const [show, setShow] = useState(false);
+	const [show, setShow] = useState(true);
+	const [leftPaneOpen, setLeftPaneOpen] = useState(false);
+	const [rightPaneOpen, setRightPaneOpen] = useState(true);
 
 	useEffect(() => {
 		const shortcut = (event: KeyboardEvent) => {
@@ -26,15 +29,42 @@ const App = () => {
 		};
 	}, [show]);
 
+	const handlePaneClick = (side) => {
+		if (side === 'left') {
+			setLeftPaneOpen(!leftPaneOpen);
+		} else {
+			setRightPaneOpen(!rightPaneOpen);
+		}
+	};
+
 	return (
-		<div
-			className="buddy-app"
-			style={show ? { opacity: 1, visibility: 'visible' } : { opacity: 0, visibility: 'hidden' }}
-		>
-			<Pane side="left" />
-			<MainView />
-			<Pane side="right" />
-		</div>
+		<>
+			<div
+				className="buddy-app"
+				style={show ? { opacity: 1, visibility: 'visible' } : { opacity: 0, visibility: 'hidden' }}
+			>
+				<LeftPane
+					style={leftPaneOpen ? { opacity: 1 } : { opacity: 0 }}
+					onPaneClick={() => {
+						if (!leftPaneOpen) setShow(false);
+					}}
+				/>
+				<MainView lpo={leftPaneOpen} rpo={rightPaneOpen} onPaneClick={handlePaneClick} />
+				<RightPane
+					style={rightPaneOpen ? { opacity: 1 } : { opacity: 0 }}
+					onPaneClick={() => {
+						if (!rightPaneOpen) setShow(false);
+					}}
+				/>
+			</div>
+			<div
+				className="buddy-overlay"
+				onClick={() => {
+					setShow(false);
+				}}
+				style={show ? { display: 'block' } : { display: 'none' }}
+			/>
+		</>
 	);
 };
 

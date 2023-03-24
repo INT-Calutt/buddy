@@ -7,7 +7,7 @@ import SunIcon from '../images/sun.svg';
 import PlaygroundIcon from '../images/playground.svg';
 import { Form } from 'react-bootstrap';
 
-const Header = () => {
+const Header = ({ rpo, lpo, onPaneClick }) => {
 	const [activeIcons, setActiveIcons] = useState([]);
 
 	const handleIconClicked = (name: string) => {
@@ -21,8 +21,8 @@ const Header = () => {
 		<div className="header">
 			<div className="header--left">
 				<HistoryIcon
-					className={`icon path--fill${activeIcons.includes('history') ? ' icon--active' : ''}`}
-					onClick={() => handleIconClicked('history')}
+					className={`icon path--fill${lpo ? ' icon--active' : ''}`}
+					onClick={() => onPaneClick('left')}
 				/>
 				<IncognitoIcon
 					className={`icon g--fill${activeIcons.includes('incognito') ? ' icon--active' : ''}`}
@@ -34,7 +34,7 @@ const Header = () => {
 				/>
 			</div>
 			<div className="header--center">
-				<Form.Select bsPrefix="preset-select" size="lg">
+				<Form.Select bsPrefix="buddy-bs-select" size="lg">
 					<option>Load a preset...</option>
 					<option value="1">One</option>
 					<option value="2">Two</option>
@@ -51,10 +51,8 @@ const Header = () => {
 					onClick={() => handleIconClicked('sun')}
 				/>
 				<ConfigurationIcon
-					className={`icon path--fill path--stroke${
-						activeIcons.includes('configuration') ? ' icon--active' : ''
-					}`}
-					onClick={() => handleIconClicked('configuration')}
+					className={`icon path--fill path--stroke${rpo ? ' icon--active' : ''}`}
+					onClick={() => onPaneClick('right')}
 				/>
 			</div>
 		</div>

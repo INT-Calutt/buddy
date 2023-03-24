@@ -1,6 +1,28 @@
 .pane {
-	width: 160px;
+	width: 15.5rem;
 	background-color: #111a2b;
 	border-radius: 0.8rem;
-	display: none;
+	border: 1px solid $color-disabled-dark-theme;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), 0px 4px 8px rgba(0, 0, 0, 0.15), 0px 8px 16px rgba(0, 0, 0, 0.1);
+	padding: 0.5rem 1rem;
+
+	& select,
+	& input {
+		width: 90%;
+		align-self: center;
+
+		&[type='range'] {
+			width: 80%;
+			align-self: flex-start;
+			margin-left: 5%;
+		}
+	}
+
+	& label {
+		margin-left: 5%;
+	}
+
+	& .buddy-bs-range--value {
+		margin-right: 15%;
+	}
 }

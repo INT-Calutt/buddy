@@ -4,6 +4,7 @@
 
 @import 'base/animations.scss';
 @import 'base/base.scss';
+@import 'base/flex.scss';
 @import 'base/svg.scss';
 @import 'base/typography.scss';
 @import 'base/utilities.scss';
@@ -13,3 +14,5 @@
 @import 'components/header.scss';
 @import 'components/main-view.scss';
 @import 'components/pane.scss';
+
+@import 'vendors/bootstrap.scss';

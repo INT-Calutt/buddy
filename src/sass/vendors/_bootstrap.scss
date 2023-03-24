@@ -1,0 +1,55 @@
+.buddy-bs-select {
+	background: transparent;
+	color: white;
+	padding: 2px;
+	font-size: 14px;
+	border-radius: 5px;
+
+	& option {
+		background-color: #111a2b;
+	}
+}
+
+.buddy-bs-control {
+	background: transparent;
+	color: white;
+	padding: 4.5px 7px;
+	font-size: 14px;
+	border: 1px solid #767676;
+	border-radius: 5px;
+
+	&::placeholder {
+		color: rgba(white, 0.85);
+	}
+}
+
+.buddy-bs-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.buddy-bs-label {
+	font-size: 14px;
+}
+
+.buddy-bs-label + .buddy-bs-select,
+.buddy-bs-label + .buddy-bs-control {
+	margin-top: 0.3rem;
+}
+
+.buddy-bs-range {
+	margin-top: 0.2rem;
+
+	&--wrapper {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&--value {
+		font-size: 14px;
+	}
+}
+
+.mb-2_5 {
+	margin-bottom: 12px;
+}
