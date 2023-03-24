@@ -1,0 +1,60 @@
+.chat {
+	display: flex;
+	flex-direction: column;
+	height: calc(100% - 37px - 0.75rem);
+	font-size: 14px;
+
+	&__text-box {
+		flex: 1;
+		overflow: auto;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+
+	&__prompt {
+		display: flex;
+		align-items: center;
+		position: relative;
+		margin: 0 0.5rem;
+		padding-top: 0.75rem;
+
+		& svg {
+			margin: 0 0.3rem;
+			cursor: pointer;
+		}
+	}
+
+	&__input {
+		flex: 1;
+		background: #1e2a3b;
+		border: none;
+		outline: none;
+		color: white;
+		padding: 0.5rem;
+		padding-right: 2.5rem;
+		border-radius: 0.4rem;
+
+		&-icon {
+			display: flex;
+			align-items: center;
+			position: absolute;
+			right: calc(20px + 2 * 0.3rem + 0.5rem);
+		}
+	}
+
+	&__placeholder {
+		padding: 1rem;
+		font-size: 16px;
+	}
+
+	&__question {
+		padding: 1rem;
+	}
+
+	&__answer {
+		padding: 1rem;
+		background-color: #334155;
+	}
+}

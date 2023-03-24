@@ -1,0 +1,26 @@
+svg {
+	&.icon:hover {
+		&.svg--fill,
+		&.path--fill path,
+		&.g--fill g {
+			fill: $color-disabled-hover-dark-theme;
+		}
+		&.svg--stroke,
+		&.path--stroke path,
+		&.g--stroke g {
+			stroke: $color-disabled-hover-dark-theme;
+		}
+	}
+	&.icon.icon--active {
+		&.svg--fill,
+		&.path--fill path,
+		&.g--fill g {
+			fill: $color-enabled-dark-theme;
+		}
+		&.svg--stroke,
+		&.path--stroke path,
+		&.g--stroke g {
+			stroke: $color-enabled-dark-theme;
+		}
+	}
+}

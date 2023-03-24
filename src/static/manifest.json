@@ -1,0 +1,26 @@
+{
+	"manifest_version": 3,
+	"name": "Buddy",
+	"description": "Your AI Buddy",
+	"version": "1.0.0",
+	"action": {
+		"default_popup": "popup.html",
+		"default_title": "Buddy",
+		"default_icon": "icon.png"
+	},
+	"icons": {
+		"16": "icon.png",
+		"48": "icon.png",
+		"128": "icon.png"
+	},
+	"options_page": "options.html",
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://www.google.com/"],
+			"js": ["contentScript.js"]
+		}
+	]
+}

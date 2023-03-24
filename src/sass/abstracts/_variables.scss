@@ -1,0 +1,55 @@
+$font-huge: 27px;
+$font-big: 21px;
+$font-bigger: 18px;
+$font-base: 16px;
+$font-medium: 14px;
+$font-small: 12px;
+$font-xs: 10px;
+
+$color-primary: #f4801a;
+$color-primary-light: lighten($color-primary, 10%);
+$color-primary-darken: darken($color-primary, 10%);
+$color-secondary: #3b56f9;
+$color-secondary-light: lighten($color-secondary, 10%);
+$color-secondary-dark: darken($color-secondary, 10%);
+$color-secondary-disabled: #9dacfb;
+
+$color-white: #fff;
+$color-white-dark: darken($color-white, 25%);
+$color-gray: #434653;
+$color-gray-dark: darken($color-gray, 15%);
+$color-gray-light: lighten($color-gray, 15%);
+
+$color-red: #d32f2f;
+$color-red-disabled: #eb9893;
+
+$background-default: #f6f7fb;
+
+$menu-width: 200px;
+
+$margin-base: 2rem;
+$margin-double: 4rem;
+$margin-rect: 2rem 4rem;
+
+$padding-base: 2rem;
+$padding-rect: 2rem 4rem;
+
+$linear-gradient-base: linear-gradient(115deg, darken(#f3f7fc, 2%) 0%, darken(#e0e4ef, 2%) 74%);
+
+$border-default: 1px solid rgba($color-gray, 0.2);
+$border-dark: 1px solid rgba($color-gray, 0.4);
+
+$shadow-default: 0px 3px 12px #e6e9ef;
+
+$bs-gray: #212529;
+
+$polygon: polygon(50% 0%, 5% 25%, 5% 75%, 50% 100%, 95% 75%, 95% 25%);
+$integration-size: 4.5rem;
+
+$shadow-1: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+$shadow-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+$color-disabled-dark-theme: #8e9db1;
+$color-disabled-hover-dark-theme: lighten($color-disabled-dark-theme, 15%);
+$color-enabled-dark-theme: #60ebeb;
+$border-dark-theme: 1px solid rgba(#4e6282, 0.6);

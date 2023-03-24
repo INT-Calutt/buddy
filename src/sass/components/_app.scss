@@ -1,0 +1,9 @@
+.app {
+	display: flex;
+	z-index: 99999999999999999;
+	height: 460px;
+	@include absCenterTop;
+	position: fixed;
+	color: white;
+	font-size: 16px;
+}

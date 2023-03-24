@@ -1,0 +1,32 @@
+@mixin clearfix {
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+@mixin absCenter {
+	position: absolute;
+	top: 50%;
+	right: 50%;
+	transform: translate(50%, -50%);
+}
+
+@mixin absCenterTop {
+	position: absolute;
+	top: 30%;
+	right: 50%;
+	transform: translate(50%, -30%);
+}
+
+@mixin tableColWidth($size) {
+	& .t-th,
+	& .t-td {
+		width: calc(100% / $size - 1%);
+
+		&:first-child {
+			width: calc(100% / $size + 1% * $size - 1%);
+		}
+	}
+}

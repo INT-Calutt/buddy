@@ -1,0 +1,26 @@
+.header {
+	display: flex;
+	padding: 0.5rem;
+	border-bottom: $border-dark-theme;
+	justify-content: space-between;
+	align-items: center;
+
+	& svg {
+		margin: 0 0.3rem;
+		cursor: pointer;
+	}
+
+	&--right,
+	&--left {
+		display: flex;
+	}
+
+	&--center {
+		flex: 1;
+		text-align: center;
+
+		& select {
+			width: 70%;
+		}
+	}
+}

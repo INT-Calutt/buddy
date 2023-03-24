@@ -1,0 +1,8 @@
+@keyframes transparent-secondary {
+	0% {
+		color: transparent;
+	}
+	100% {
+		color: $color-secondary;
+	}
+}
