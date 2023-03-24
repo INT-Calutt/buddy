@@ -1,6 +1,10 @@
-.app {
+.buddy-app {
+	all: initial;
+	z-index: 2147483647;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 	display: flex;
-	z-index: 99999999999999999;
 	height: 460px;
 	@include absCenterTop;
 	position: fixed;
