@@ -6,8 +6,14 @@ const App = () => {
 	const [show, setShow] = useState(false);
 
 	useEffect(() => {
-		const shortcut = (event) => {
-			if (event.ctrlKey && (event.key === 'b' || event.key === 'B')) {
+		const shortcut = (event: KeyboardEvent) => {
+			let universalCtrlPressed = false;
+			if (navigator.userAgent.indexOf('Mac') !== -1) {
+				universalCtrlPressed = event.metaKey;
+			} else {
+				universalCtrlPressed = event.ctrlKey;
+			}
+			if (universalCtrlPressed && (event.key === 'b' || event.key === 'B')) {
 				setShow(!show);
 			}
 		};
@@ -22,7 +28,7 @@ const App = () => {
 
 	return (
 		<div
-			className="app"
+			className="buddy-app"
 			style={show ? { opacity: 1, visibility: 'visible' } : { opacity: 0, visibility: 'hidden' }}
 		>
 			<Pane side="left" />
