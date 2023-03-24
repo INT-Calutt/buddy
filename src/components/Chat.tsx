@@ -48,7 +48,7 @@ const Chat = () => {
 	}, [chatHistory, answer]);
 
 	useEffect(() => {
-		const keyDownEvent = (event) => {
+		const keyDownEvent = (event: KeyboardEvent) => {
 			if (event.key === 'Enter') {
 				event.preventDefault();
 				handleSend();
