@@ -34,7 +34,7 @@ const Header = () => {
 				/>
 			</div>
 			<div className="header--center">
-				<Form.Select size="lg">
+				<Form.Select bsPrefix="preset-select" size="lg">
 					<option>Load a preset...</option>
 					<option value="1">One</option>
 					<option value="2">Two</option>
