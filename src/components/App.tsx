@@ -31,7 +31,8 @@ const App = () => {
 
 	const handlePaneClick = (side) => {
 		if (side === 'left') {
-			setLeftPaneOpen(!leftPaneOpen);
+			//not ready yet
+			// setLeftPaneOpen(!leftPaneOpen);
 		} else {
 			setRightPaneOpen(!rightPaneOpen);
 		}
