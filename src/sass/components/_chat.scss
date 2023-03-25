@@ -13,6 +13,21 @@
 		}
 	}
 
+	&__stop {
+		width: fit-content;
+		align-self: center;
+		background: transparent;
+		color: white;
+		border: 1px solid #767676;
+		border-radius: 5px;
+		cursor: pointer;
+		padding: 0.5rem;
+
+		&:hover {
+			background-color: rgba(white, 0.1);
+		}
+	}
+
 	&__prompt {
 		display: flex;
 		align-items: center;
@@ -56,5 +71,6 @@
 	&__answer {
 		padding: 1rem;
 		background-color: #334155;
+		white-space: pre-line;
 	}
 }

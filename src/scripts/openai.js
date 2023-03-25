@@ -1,8 +1,3 @@
-const CHAT_URL = 'https://api.openai.com/v1/chat/completions';
-const MODELS_URL = 'https://api.openai.com/v1/models';
-const OPENAI_API_KEY_STORAGE = 'OPENAI_API_KEY';
-const OPENAI_MODEL_STORAGE = 'OPENAI_MODEL';
-
 var SSE = function (url, options) {
 	if (!(this instanceof SSE)) {
 		return new SSE(url, options);
@@ -220,28 +215,34 @@ if (typeof exports !== 'undefined') {
 	exports.SSE = SSE;
 }
 
-export const chatHistory = [];
+const CHAT_URL = 'https://api.openai.com/v1/chat/completions';
+const MODELS_URL = 'https://api.openai.com/v1/models';
+const OPENAI_API_KEY_STORAGE = 'OPENAI_API_KEY';
+const OPENAI_MODEL_STORAGE = 'OPENAI_MODEL';
 
-//for noam
+export let chatHistory = [];
+
+export function clearChatHistory() {
+	// while (chatHistory.length > 0) {
+	// 	chatHistory.pop();
+	// }
+	chatHistory = [];
+}
+
 export function setModel(model) {
 	localStorage.setItem(OPENAI_MODEL_STORAGE, model);
 }
 
-//for noam
 export function getModel() {
 	return localStorage.getItem(OPENAI_MODEL_STORAGE);
-	return 'gpt-3.5-turbo';
 }
 
-//for noam
 export function setApiKey(api_key) {
 	localStorage.setItem(OPENAI_API_KEY_STORAGE, api_key);
 }
 
-//for noam
 export function getApiKey() {
 	return localStorage.getItem(OPENAI_API_KEY_STORAGE);
-	return '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';
 }
 
 function getHeaders(api_key) {
@@ -258,6 +259,7 @@ function turnToUserMessage(prompt) {
 	};
 }
 
+const supportedModels = ['gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo', 'text-davinci-003', 'code-davinci-002'];
 async function _getAvailableModels(apiKey) {
 	let response = await fetch(MODELS_URL, {
 		method: 'GET',
@@ -266,12 +268,11 @@ async function _getAvailableModels(apiKey) {
 
 	let responseData = await response.json();
 
-	return responseData['data'].map((v) => v['id']);
+	return responseData['data'].map((v) => v['id']).filter((v) => supportedModels.includes(v));
 }
 
-//for noam
 export async function getAvailableModels() {
-	apiKey = getApiKey();
+	let apiKey = getApiKey();
 
 	if (apiKey === null) {
 		throw 'apikey needs to be set';
@@ -295,65 +296,9 @@ async function _sendToOpenAIChatCompletionAndReturnChoiceMessage(apiKey, model, 
 	return responseData['choices'][0]['message'];
 }
 
-async function answerSinglePrompt(prompt) {
-	apiKey = getApiKey();
-	model = getModel();
-
-	if (apiKey === null || model === null) {
-		throw 'apikey and model needs to be set';
-	}
-
-	let newMessage = turnToUserMessage(prompt);
-
-	let responseMessage = await _sendToOpenAIChatCompletionAndReturnChoiceMessage(apiKey, model, [newMessage]);
-
-	chatHistory.push(newMessage);
-	chatHistory.push(responseMessage);
-
-	return responseMessage['content'];
-}
-
-async function answerPromptWithContext(prompt, context) {
-	apiKey = getApiKey();
-	model = getModel();
-
-	if (apiKey === null || model === null) {
-		throw 'apikey and model needs to be set';
-	}
-
-	const messages = [turnToUserMessage(context), turnToUserMessage(prompt)];
-
-	let responseMessage = await _sendToOpenAIChatCompletionAndReturnChoiceMessage(apiKey, model, messages);
-
-	messages.forEach((m) => chatHistory.push(m));
-	chatHistory.push(responseMessage);
-
-	return responseMessage['content'];
-}
-
-async function answerPromptWithHistory(prompt) {
-	apiKey = getApiKey();
-	model = getModel();
-
-	if (apiKey === null || model === null) {
-		throw 'apikey and model needs to be set';
-	}
-
-	let promptMessage = turnToUserMessage(prompt);
-	const messages = [...chatHistory, promptMessage];
-
-	let responseMessage = await _sendToOpenAIChatCompletionAndReturnChoiceMessage(apiKey, model, messages);
-
-	chatHistory.push(promptMessage);
-	chatHistory.push(responseMessage);
-
-	return responseMessage['content'];
-}
-
-//for noam
 export async function answerPrompt(prompt, context = null, useHistory = true) {
-	const apiKey = getApiKey();
-	const model = getModel();
+	let apiKey = getApiKey();
+	let model = getModel();
 
 	if (apiKey === null || model === null) {
 		throw 'apikey and model needs to be set';
@@ -383,58 +328,150 @@ export async function answerPrompt(prompt, context = null, useHistory = true) {
 	return responseMessage['content'];
 }
 
-export async function streamResponseFromOpenAI(prompt, newContentCallback) {
-	const api_key = getApiKey();
+export function streamResponseFromOpenAI(
+	prompt,
+	newContentCallback = (r) => {},
+	context = null,
+	useHistory = true,
+	newPartialContentCallback = null
+) {
+	let apiKey = getApiKey();
+	let model = getModel();
+
+	if (apiKey === null || model === null) {
+		throw 'apikey and model needs to be set';
+	}
+
+	let messages = [];
+
+	if (useHistory) {
+		messages = [...chatHistory];
+	}
+
+	let contextMessage = null;
+	if (context && context !== null && context !== undefined && context !== '') {
+		contextMessage = turnToUserMessage(context);
+		messages.push(contextMessage);
+		chatHistory.push(contextMessage);
+	}
+
 	let promptMessage = turnToUserMessage(prompt);
+	messages.push(promptMessage);
+	chatHistory.push(promptMessage);
+
 	const es = new SSE(CHAT_URL, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${api_key}`,
+			Authorization: `Bearer ${apiKey}`,
 		},
 		payload: JSON.stringify({
-			model: 'gpt-3.5-turbo',
-			messages: [promptMessage],
+			model: model,
+			messages: messages,
 			stream: true,
 		}),
-		//pollingInterval: 25000,
-		//witCredentials: true
 	});
 
 	let newContent = '';
 
 	const sseListener = (event) => {
-		if (event.type == 'open') {
-			console.log('SSE Connection Open');
-		} else if (event.type == 'message') {
-			if (event.data == '[DONE]') {
+		if (event.data == '[DONE]') {
+			es.close();
+			chatHistory.push({
+				role: 'assistant',
+				content: newContent,
+			});
+		} else {
+			const data = JSON.parse(event.data);
+			const delta = data['choices'][0]['delta'];
+			const finishReason = data['choices'][0]['finish_reason'];
+
+			if (finishReason == 'stop') {
 				es.close();
 			} else {
-				const data = JSON.parse(event.data);
-				//console.log(data);
-				const delta = data['choices'][0]['delta'];
-				const finishReason = data['choices'][0]['finish_reason'];
+				if (delta && delta['content']) {
+					newContent = newContent + delta['content'];
+					newContentCallback(newContent);
 
-				if (finishReason == 'stop') {
-					es.close();
-				} else {
-					if (delta && delta['content']) {
-						newContent = newContent + delta['content'];
-						//document.getElementById('m_Answer').innerHTML = newContent
-						newContentCallback(newContent);
-					}
+					if (newPartialContentCallback !== null) newPartialContentCallback(delta['content']);
 				}
 			}
-		} else if (event.type == 'error') {
-			console.log(`Connection Error: ${event.message}`);
-		} else if (event.type == 'exception') {
-			console.log(`Error: ${event.message}, ${event.error}`);
 		}
 	};
 
-	es.addEventListener('open', sseListener);
 	es.addEventListener('message', sseListener);
-	es.addEventListener('error', sseListener);
-
 	es.stream();
+
+	return () => {
+		es.removeEventListener('message', sseListener);
+		es.close();
+	};
+}
+
+function gpt_convertOpenAIAPIAnswerToCodeTags(answer) {
+	answer = gpt_replaceCodeTags(answer, '```', '<pre><code>', '</code></pre');
+	answer = gpt_replaceCodeTags(answer, '`', '<code>', '</code>');
+	return answer;
+}
+
+function gpt_replaceCodeTags(answer, codeTag, openTag, closeTag) {
+	const regex = new RegExp(codeTag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+	let isOpening = true;
+	return answer.replace(regex, (match) => {
+		const tag = isOpening ? openTag : closeTag;
+		isOpening = !isOpening;
+		return tag;
+	});
+}
+
+export function convertOpenAIAPIAnswerToCodeTags(answer) {
+	let index = answer.indexOf('```');
+	let openning = true;
+
+	while (index !== -1) {
+		let elementToReplaceWith = openning ? '<pre><code>' : '</code></pre>';
+		openning = !openning;
+
+		answer = answer.replace('```', elementToReplaceWith);
+
+		index = answer.indexOf('```', index);
+	}
+
+	index = answer.indexOf('`');
+	openning = true;
+
+	while (index !== -1) {
+		let elementToReplaceWith = openning ? '<code>' : '</code>';
+		openning = !openning;
+
+		answer = answer.replace('`', elementToReplaceWith);
+
+		index = answer.indexOf('`', index);
+	}
+
+	return answer;
+}
+
+export async function reAskQuestion(stream, answerCallback = (r) => {}) {
+	let prompt = null;
+	let context = null;
+	let useHistory = document.getElementById('m_UseHistory').checked;
+
+	let last = chatHistory.pop();
+	while (last['role'] === 'assistant') last = chatHistory.pop();
+
+	prompt = last['content'];
+
+	last = chatHistory[chatHistory.length - 1];
+	if (last['role'] == 'user') {
+		context = chatHistory.pop()['content'];
+	}
+
+	if (stream == false) {
+		let answer = await answerPrompt(prompt, context, useHistory);
+		answerCallback(answer);
+		return answer;
+	} else {
+		return (_stopCurrentQuestion = streamResponseFromOpenAI(prompt, answerCallback, context, useHistory));
+	}
 }

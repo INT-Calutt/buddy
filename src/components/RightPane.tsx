@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Form } from 'react-bootstrap';
-import { getAvailableModels, setModel } from '../scripts/streaming2';
+import { getAvailableModels, setModel, setApiKey, getApiKey } from '../scripts/openai';
 
 const RightPane = ({ onPaneClick, style = null }) => {
 	const [models, setModels] = useState([]);
+	const [apiKeyLocal, setApiKeyLocal] = useState('');
+
+	const apiKeyEl = useRef<HTMLInputElement>();
 
 	useEffect(() => {
-		const asyncFunc = async () => {
-			let availModels = await getAvailableModels();
-			if (availModels.length > 0) {
-				setModel(availModels[0]);
-			}
-			setModels(availModels);
-		};
+		const apiKey = getApiKey();
+		if (apiKey) {
+			setApiKeyLocal(apiKey);
+		}
+	}, [apiKeyEl.current]);
 
-		asyncFunc();
-	}, []);
+	// useEffect(() => {
+	// 	const asyncFunc = async () => {
+	// 		let availModels = await getAvailableModels();
+	// 		if (availModels.length > 0) {
+	// 			setModel('gpt-3.5-turbo');
+	// 		}
+	// 		setModels(availModels);
+	// 	};
+
+	// 	asyncFunc();
+	// }, []);
 	// const [valueTemp, setValueTemp] = useState('0.7');
 	// const [valueMaxLen, setValueMaxLen] = useState('256');
 	// const [valueTopP, setValueTopP] = useState('1');
@@ -38,6 +48,13 @@ const RightPane = ({ onPaneClick, style = null }) => {
 						type="text"
 						bsPrefix="buddy-bs-control"
 						placeholder="Enter your API Key"
+						ref={apiKeyEl}
+						value={apiKeyLocal}
+						onChange={(e) => {
+							console.log('setting: ', e.target.value);
+							setApiKeyLocal(e.target.value);
+							setApiKey(e.target.value);
+						}}
 					></Form.Control>
 				</Form.Group>
 				<Form.Group className="buddy-bs-group mb-3">
@@ -50,17 +67,18 @@ const RightPane = ({ onPaneClick, style = null }) => {
 					<Form.Label bsPrefix="buddy-bs-label">Model</Form.Label>
 					<Form.Select
 						bsPrefix="buddy-bs-select"
-						onChange={(e) => {
-							setModel(e.target.value);
-						}}
+						// onChange={(e) => {
+						// 	setModel(e.target.value);
+						// }}
 					>
-						{models.map((model: string) => {
+						<option>gpt-3.5-turbo</option>
+						{/* {models.map((model: string) => {
 							return (
 								<option key={model} value={model}>
 									{model}
 								</option>
 							);
-						})}
+						})} */}
 					</Form.Select>
 				</Form.Group>
 				{/* <Form.Group className="buddy-bs-group mb-2_5">

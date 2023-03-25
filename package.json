@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"bootstrap": "^5.2.3",
+		"highlight.js": "^11.7.0",
 		"react-bootstrap": "^2.7.2",
 		"react-shadow-root": "^6.2.0"
 	}

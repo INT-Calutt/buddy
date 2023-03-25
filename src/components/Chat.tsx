@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TrashIcon from '../images/trash.svg';
 import SendIcon from '../images/send.svg';
-import { setModel, setApiKey, answerPrompt, streamResponseFromOpenAI, chatHistory } from '../scripts/streaming2.js';
+import {
+	setModel,
+	setApiKey,
+	answerPrompt,
+	streamResponseFromOpenAI,
+	chatHistory,
+	clearChatHistory,
+	convertOpenAIAPIAnswerToCodeTags,
+} from '../scripts/openai.js';
+import hljs from 'highlight.js';
 
 const Chat = () => {
 	const inputEl = useRef<HTMLInputElement>();
@@ -9,11 +18,14 @@ const Chat = () => {
 	const [question, setQuestion] = useState('');
 	const [questionHistory, setQuestionHistory] = useState([]);
 	const [answer, setAnswer] = useState('');
+	const [stopResponse, setStopResponse] = useState<Function>();
 
-	useEffect(() => {
-		setModel('gpt-3.5-turbo');
-		setApiKey('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');
-	}, []);
+	// useEffect(() => {
+	// 	if (answer) {
+	// 		document.querySelector('.chat__answer.current').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
+	// 		hljs.highlightAll();
+	// 	}
+	// }, [answer]);
 
 	useEffect(() => {
 		if (textBoxEl.current) {
@@ -28,7 +40,7 @@ const Chat = () => {
 	}, [textBoxEl.current, question]);
 
 	useEffect(() => {
-		if (chatHistory.length > 0) {
+		if (chatHistory.length >= 0) {
 			const qaObjs = chatHistory.filter((qaObj, index) => {
 				if (chatHistory.length === index + 1) {
 					return qaObj.role === 'user';
@@ -99,8 +111,11 @@ const Chat = () => {
 			inputEl.current.value = '';
 			// const answer = await answerPrompt(question);
 			// setAnswer(answer);
-			streamResponseFromOpenAI(question, (res) => {
+			let stopResponse = streamResponseFromOpenAI(question, (res) => {
 				setAnswer(res);
+			});
+			setStopResponse(() => {
+				return stopResponse;
 			});
 		}
 	};
@@ -132,14 +147,32 @@ const Chat = () => {
 				)}
 				{renderQA()}
 				<div className="chat__question">{question}</div>
-				{answer && <div className="chat__answer">{answer}</div>}
+				{answer && <div className="chat__answer current">{answer}</div>}
 			</div>
+			<button
+				className="chat__stop"
+				onClick={() => {
+					try {
+						console.log('Stopping');
+						stopResponse();
+					} catch (e) {}
+				}}
+			>
+				Stop response
+			</button>
 			<div className="chat__prompt">
 				<input type="text" className="chat__input" ref={inputEl} />
 				<div className="chat__input-icon">
 					<SendIcon onClick={handleSend} className="icon path--fill" />
 				</div>
-				<TrashIcon className="icon path--stroke" />
+				<TrashIcon
+					className="icon path--stroke"
+					onClick={() => {
+						clearChatHistory();
+						setQuestion('');
+						setAnswer('');
+					}}
+				/>
 			</div>
 		</div>
 	);
