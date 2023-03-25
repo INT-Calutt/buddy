@@ -1,6 +1,6 @@
 # Buddy
 
-Buddy - a fun open source cmd+b interface to OpenAI’s API
+Buddy - a fun open source cmd+b interface to OpenAI’s API.
 
 We got tired searching both the chat and playground tabs of OpenAI every time we had a quesiton, and quite annoyed when the free research preview did not work for a day. We searched for a simple interface to the chat API and found many payed extensions that sell buckets of queries for some $/mo, which there is not way we were gonna use, so we just built this. 
 
@@ -31,13 +31,12 @@ Here’s what the playground mode will look like -
 
 ![Screenshot 2023-03-24 at 20.31.08.png](images/Screenshot_2023-03-24_at_20.31.08.png)
 
-# Fixes (to do)
+# Bugs
 
-- adjust UI to all domains.
-- syntax highlighting and code view.
-- don’t allow a question before current respons ends.
-- buddy sometimes pops without calling for it.
-- presets functionality.
+- buddy does not work in some domains.
+- syntax highlighting and code view do not work in some domains.
+- allows a question before current respons ends.
+- presets functionality does not work.
 
 # Things we’re exploring
 
@@ -46,4 +45,8 @@ Here’s what the playground mode will look like -
 - support chatGPT plugins (when/if available through the API).
 - interface to fine tune a model.
 
-There’s obviously a lot to fix and add, but we’ve used it a lot for the past two days and really enjoyed it (we stopped using [https://chat.openai.com/chat](https://chat.openai.com/chat)). Hope you would enjoy buddy as well, we’d love to get any feedback :)
+# This is a pre-release version
+
+There’s obviously a lot to fix and polish, but we’ve used it a lot for the past two days even though many things don't work, and we really enjoyed it (we stopped using [https://chat.openai.com/chat](https://chat.openai.com/chat)). 
+
+Hope you'll enjoy buddy as well, any feedback is more than welcome :)
