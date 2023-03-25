@@ -4,7 +4,8 @@
 	"description": "Your AI Buddy",
 	"main": "index.js",
 	"scripts": {
-		"start": "webpack --watch --progress --config webpack.config.js"
+		"start": "webpack --watch --progress --config webpack.config.js",
+		"build": "webpack --progress --config webpack.config.js"
 	},
 	"author": "Tailorr",
 	"license": "MIT",
