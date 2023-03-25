@@ -2,7 +2,7 @@
 
 Buddy - a fun open source cmd+b interface to OpenAI’s API.
 
-We got tired searching both the chat and playground tabs of OpenAI every time we had a quesiton, and quite annoyed when the free research preview did not work for a day. We searched for a simple interface to the chat API and found many payed extensions that sell buckets of queries for some $/mo, which there is not way we were gonna use, so we just built this. 
+We got tired of searching both the chat and playground tabs of OpenAI every time we had a question, and quite annoyed when the free research preview did not work for a day. We searched for a simple interface to the chat API and found many paid extensions that sell buckets of queries for some $/mo, which there is no way we were gonna use, so we just built this.
 
 The first version looks like this -
 
@@ -35,15 +35,15 @@ Here’s what the playground mode will look like -
 
 - buddy does not work in some domains.
 - syntax highlighting and code view do not work in some domains.
-- allows a question before current respons ends.
+- allows a question before the current response ends.
 - presets functionality does not work.
 
 # Things we’re exploring
 
 - add chatGPT alternatives (LLaMa, alpaca, bing, bard).
-- count tokens in promt and completion.
+- count tokens in prompt and completion.
 - support chatGPT plugins (when/if available through the API).
-- interface to fine tune a model.
+- interface to fine-tune a model.
 
 # This is a pre-release version
 
