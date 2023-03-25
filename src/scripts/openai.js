@@ -229,20 +229,20 @@ export function clearChatHistory() {
 	chatHistory = [];
 }
 
-export function setModel(model) {
-	localStorage.setItem(OPENAI_MODEL_STORAGE, model);
+export async  function setModel(model) {
+	await chrome.storage.local.set({OPENAI_MODEL_STORAGE: model});
 }
 
-export function getModel() {
-	return localStorage.getItem(OPENAI_MODEL_STORAGE);
+export async function getModel() {
+	return await chrome.storage.local.get(OPENAI_MODEL_STORAGE);
 }
 
-export function setApiKey(api_key) {
-	localStorage.setItem(OPENAI_API_KEY_STORAGE, api_key);
+export async function setApiKey(api_key) {
+	await chrome.storage.local.set({OPENAI_API_KEY_STORAGE: api_key});
 }
 
-export function getApiKey() {
-	return localStorage.getItem(OPENAI_API_KEY_STORAGE);
+export async function getApiKey() {
+	return await chrome.storage.local.get(OPENAI_API_KEY_STORAGE);
 }
 
 function getHeaders(api_key) {
