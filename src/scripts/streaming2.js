@@ -269,7 +269,7 @@ async function _getAvailableModels(apiKey) {
 }
 
 export async function getAvailableModels() {
-	apiKey = getApiKey();
+	const apiKey = getApiKey();
 
 	if (apiKey === null) {
 		throw 'apikey needs to be set';

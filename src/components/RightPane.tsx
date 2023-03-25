@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
+import { getAvailableModels, setModel } from '../scripts/streaming2';
 
 const RightPane = ({ onPaneClick, style = null }) => {
-	const [valueTemp, setValueTemp] = useState('0.7');
-	const [valueMaxLen, setValueMaxLen] = useState('256');
-	const [valueTopP, setValueTopP] = useState('1');
-	const [valueFreqPen, setValueFreqPen] = useState('0');
-	const [valuePresPen, setValuePresPen] = useState('0');
-	const [valueBestOf, setValueBestOf] = useState('1');
+	const [models, setModels] = useState([]);
+
+	useEffect(() => {
+		const asyncFunc = async () => {
+			let availModels = await getAvailableModels();
+			if (availModels.length > 0) {
+				setModel(availModels[0]);
+			}
+			setModels(availModels);
+		};
+
+		asyncFunc();
+	}, []);
+	// const [valueTemp, setValueTemp] = useState('0.7');
+	// const [valueMaxLen, setValueMaxLen] = useState('256');
+	// const [valueTopP, setValueTopP] = useState('1');
+	// const [valueFreqPen, setValueFreqPen] = useState('0');
+	// const [valuePresPen, setValuePresPen] = useState('0');
+	// const [valueBestOf, setValueBestOf] = useState('1');
 
 	return (
 		<div className="pane pane--right" onClick={onPaneClick} style={style}>
@@ -34,11 +48,22 @@ const RightPane = ({ onPaneClick, style = null }) => {
 				</Form.Group>
 				<Form.Group className="buddy-bs-group mb-3">
 					<Form.Label bsPrefix="buddy-bs-label">Model</Form.Label>
-					<Form.Select bsPrefix="buddy-bs-select">
-						<option>test-davinci-003</option>
+					<Form.Select
+						bsPrefix="buddy-bs-select"
+						onChange={(e) => {
+							setModel(e.target.value);
+						}}
+					>
+						{models.map((model: string) => {
+							return (
+								<option key={model} value={model}>
+									{model}
+								</option>
+							);
+						})}
 					</Form.Select>
 				</Form.Group>
-				<Form.Group className="buddy-bs-group mb-2_5">
+				{/* <Form.Group className="buddy-bs-group mb-2_5">
 					<div className="buddy-bs-range--wrapper">
 						<Form.Label bsPrefix="buddy-bs-label">Temperature</Form.Label>
 						<span className="buddy-bs-range--value">{valueTemp}</span>
@@ -133,7 +158,7 @@ const RightPane = ({ onPaneClick, style = null }) => {
 							setValueBestOf(e.target.value);
 						}}
 					/>
-				</Form.Group>
+				</Form.Group> */}
 			</Form>
 		</div>
 	);
