@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client';
 import './contentScript.scss';
 import App from '../components/App';
 
-console.log('wiki!');
-
 const body = document.querySelector('body');
 
 const app = document.createElement('div');
