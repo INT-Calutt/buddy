@@ -4,7 +4,7 @@ import MainView from './MainView';
 import RightPane from './RightPane';
 
 const App = () => {
-	const [show, setShow] = useState(true);
+	const [show, setShow] = useState(false);
 	const [leftPaneOpen, setLeftPaneOpen] = useState(false);
 	const [rightPaneOpen, setRightPaneOpen] = useState(true);
 
