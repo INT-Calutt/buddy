@@ -1,25 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TrashIcon from '../images/trash.svg';
 import SendIcon from '../images/send.svg';
-import {
-	setModel,
-	setApiKey,
-	answerPrompt,
-	streamResponseFromOpenAI,
-	chatHistory,
-	clearChatHistory,
-	convertOpenAIAPIAnswerToCodeTags,
-} from '../scripts/openai.js';
+import { streamResponseFromOpenAI, chatHistory, clearChatHistory, setApiKey } from '../scripts/openai.js';
 import hljs from 'highlight.js';
 import { Form } from 'react-bootstrap';
 
-const Chat = ({ insertApiKey }) => {
+const Chat = ({ insertApiKey, onUseKey }) => {
 	const inputEl = useRef<HTMLInputElement>();
 	const textBoxEl = useRef<HTMLInputElement>();
 	const [question, setQuestion] = useState('');
 	const [questionHistory, setQuestionHistory] = useState([]);
 	const [answer, setAnswer] = useState('');
 	const [stopResponse, setStopResponse] = useState<Function>();
+	const [apiKeyValue, setApiKeyValue] = useState('');
 
 	// useEffect(() => {
 	// 	if (answer) {
@@ -112,7 +105,7 @@ const Chat = ({ insertApiKey }) => {
 			inputEl.current.value = '';
 			// const answer = await answerPrompt(question);
 			// setAnswer(answer);
-			let stopResponse = streamResponseFromOpenAI(question, (res) => {
+			let stopResponse = await streamResponseFromOpenAI(question, (res) => {
 				setAnswer(res);
 			});
 			setStopResponse(() => {
@@ -123,9 +116,9 @@ const Chat = ({ insertApiKey }) => {
 
 	const renderQA = () => {
 		return chatHistory.map((qaObj: { role: string; content: string }, index: number) => {
-			if (index === chatHistory.length - 1 || (qaObj.role === 'user' && index === chatHistory.length - 2)) {
-				return;
-			}
+			// if (index === chatHistory.length - 1 || (qaObj.role === 'user' && index === chatHistory.length - 2)) {
+			// 	return;
+			// }
 			// if (qaObj.content === question) {
 			// 	return;
 			// }
@@ -142,15 +135,25 @@ const Chat = ({ insertApiKey }) => {
 
 	const renderTextBox = () => {
 		if (insertApiKey) {
-			//add: || noApiKey
 			return (
 				<div className="chat__enter-key">
 					<Form.Control
 						type="text"
 						bsPrefix="buddy-bs-control"
 						placeholder="Enter your OpenAI's API key"
+						value={apiKeyValue}
+						onChange={(e) => {
+							setApiKeyValue(e.target.value);
+						}}
 					></Form.Control>
-					<button className="chat__button">Use this key</button>
+					<button
+						className="chat__button"
+						onClick={() => {
+							onUseKey(apiKeyValue);
+						}}
+					>
+						Use this key
+					</button>
 				</div>
 			);
 		} else {
@@ -160,7 +163,7 @@ const Chat = ({ insertApiKey }) => {
 						<div className="chat__placeholder">Hey, I'm your buddy - ask me anything!</div>
 					)}
 					{renderQA()}
-					<div className="chat__question">{question}</div>
+					{/* <div className="chat__question">{question}</div> */}
 					{answer && <div className="chat__answer current">{answer}</div>}
 				</>
 			);

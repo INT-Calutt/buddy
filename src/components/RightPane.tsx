@@ -2,19 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import { getAvailableModels, setModel, setApiKey, getApiKey } from '../scripts/openai';
 
-const RightPane = ({ onApiKeyEdit, onPaneClick, style = null }) => {
+const RightPane = ({ onApiKeyEdit, apiKey, onPaneClick, style = null }) => {
 	const [models, setModels] = useState([]);
-	const [apiKeyLocal, setApiKeyLocal] = useState('');
 
 	const apiKeyEl = useRef<HTMLInputElement>();
 
-	useEffect(() => {
-		getApiKey().then((apiKey) => {
-			if (apiKey) {
-				setApiKeyLocal(apiKey);
-			}
-		});
-	}, [apiKeyEl.current]);
+	// useEffect(() => {
+	// 	getApiKey().then((apiKey) => {
+	// 		if (apiKey) {
+	// 			setApiKeyLocal(apiKey);
+	// 		}
+	// 	});
+	// }, [apiKeyEl.current]);
 
 	// useEffect(() => {
 	// 	const asyncFunc = async () => {
@@ -54,8 +53,7 @@ const RightPane = ({ onApiKeyEdit, onPaneClick, style = null }) => {
 						type="text"
 						bsPrefix="buddy-bs-control"
 						placeholder="Enter your API Key"
-						ref={apiKeyEl}
-						value={apiKeyLocal}
+						value={apiKey}
 						disabled
 					></Form.Control>
 				</Form.Group>
