@@ -32,7 +32,9 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 
 	useEffect(() => {
 		if (answer) {
-			document.querySelector('.chat__answer.current > p').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
+			const parsed = convertOpenAIAPIAnswerToCodeTags(answer);
+			setAnswer(parsed);
+			// document.querySelector('.chat__answer.current > p').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
 			hljs.highlightAll();
 		}
 	}, [answer]);
@@ -196,7 +198,7 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 									navigator.clipboard.writeText(answer);
 								}}
 							/>
-							<p>{answer}</p>
+							<p dangerouslySetInnerHTML={{ __html: answer }}></p>
 						</div>
 					)}
 				</>
