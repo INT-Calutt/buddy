@@ -8,6 +8,7 @@ import {
 	clearChatHistory,
 	setApiKey,
 	convertOpenAIAPIAnswerToCodeTags,
+	getAvailableModels,
 } from '../scripts/openai.js';
 import hljs from 'highlight.js';
 import { Form } from 'react-bootstrap';
@@ -26,15 +27,13 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 	const [question, setQuestion] = useState('');
 	const [questionHistory, setQuestionHistory] = useState([]);
 	const [answer, setAnswer] = useState('');
-	const [convertedAnswer, setconvertedAnswer] = useState('');
+	const [convertedAnswer, setConvertedAnswer] = useState('');
 	const [stopResponse, setStopResponse] = useState<Function>();
 	const [apiKeyValue, setApiKeyValue] = useState('');
 
 	useEffect(() => {
 		if (answer) {
-			const parsed = convertOpenAIAPIAnswerToCodeTags(answer);
-			setAnswer(parsed);
-			// document.querySelector('.chat__answer.current > p').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
+			document.querySelector('.chat__answer.current > p').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
 			hljs.highlightAll();
 		}
 	}, [answer]);
@@ -122,6 +121,11 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 		};
 	}, [inputEl.current, questionHistory]);
 
+	const getPreset = () => {
+		const preset: HTMLSelectElement = document.querySelector('.select-preset');
+		return preset.value;
+	};
+
 	const handleSend = async () => {
 		if (inputEl?.current && inputEl.current.value.length > 0) {
 			setQuestion('');
@@ -131,9 +135,13 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 			inputEl.current.value = '';
 			// const answer = await answerPrompt(question);
 			// setAnswer(answer);
-			let stopResponse = await streamResponseFromOpenAI(question, (res) => {
-				setAnswer(res);
-			});
+			let stopResponse = await streamResponseFromOpenAI(
+				question,
+				(res) => {
+					setAnswer(res);
+				},
+				getPreset()
+			);
 			setStopResponse(() => {
 				return stopResponse;
 			});
@@ -145,9 +153,13 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 			// if (index === chatHistory.length - 1 || (qaObj.role === 'user' && index === chatHistory.length - 2)) {
 			// 	return;
 			// }
-			// if (qaObj.content === question) {
-			// 	return;
-			// }
+			if (qaObj.content === question) {
+				textBoxEl.current.scrollBy(0, 10000);
+			}
+			if (qaObj.content === answer) {
+				return;
+			}
+
 			return (
 				<div
 					key={qaObj.content + index.toString()}
@@ -198,7 +210,7 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 									navigator.clipboard.writeText(answer);
 								}}
 							/>
-							<p dangerouslySetInnerHTML={{ __html: answer }}></p>
+							<p></p>
 						</div>
 					)}
 				</>

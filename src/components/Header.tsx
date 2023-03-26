@@ -7,7 +7,7 @@ import SunIcon from '../images/sun.svg';
 import PlaygroundIcon from '../images/playground.svg';
 import { Form } from 'react-bootstrap';
 
-const Header = ({ rpo, lpo, onPaneClick }) => {
+const Header = ({ rpo, lpo, onPaneClick, preset, onPresetChange }) => {
 	const [activeIcons, setActiveIcons] = useState([]);
 
 	const handleIconClicked = (name: string) => {
@@ -34,11 +34,25 @@ const Header = ({ rpo, lpo, onPaneClick }) => {
 				/>
 			</div>
 			<div className="header--center">
-				<Form.Select bsPrefix="buddy-bs-select" size="lg">
-					<option>Load a preset...</option>
-					<option value="1">One</option>
-					<option value="2">Two</option>
-					<option value="3">Three</option>
+				<Form.Select
+					bsPrefix="buddy-bs-select"
+					className="select-preset"
+					size="lg"
+					value={preset}
+					onChange={(e) => {
+						onPresetChange(e.target.value);
+					}}
+				>
+					<option value="">Load a preset...</option>
+					<option value="rewrite the following in a casual tone:">
+						rewrite the following in a casual tone:
+					</option>
+					<option value="rewrite the following in a professional tone:">
+						rewrite the following in a professional tone:
+					</option>
+					<option value="rewrite the following in a correct grammar:">
+						rewrite the following in a correct grammar:
+					</option>
 				</Form.Select>
 			</div>
 			<div className="header--right">
