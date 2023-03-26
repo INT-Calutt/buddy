@@ -13,7 +13,21 @@
 		}
 	}
 
-	&__stop {
+	&__enter-key {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		& input {
+			width: 20rem;
+			text-align: center;
+			padding: 7px;
+			margin-top: 5rem;
+			margin-bottom: 2rem;
+		}
+	}
+
+	&__button {
 		width: fit-content;
 		align-self: center;
 		background: transparent;
@@ -22,6 +36,7 @@
 		border-radius: 5px;
 		cursor: pointer;
 		padding: 0.5rem;
+		margin-top: 0.5rem;
 
 		&:hover {
 			background-color: rgba(white, 0.1);

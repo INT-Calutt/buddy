@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import { getAvailableModels, setModel, setApiKey, getApiKey } from '../scripts/openai';
 
-const RightPane = ({ onPaneClick, style = null }) => {
+const RightPane = ({ onApiKeyEdit, apiKey, onPaneClick, style = null }) => {
 	const [models, setModels] = useState([]);
-	const [apiKeyLocal, setApiKeyLocal] = useState('');
 
 	const apiKeyEl = useRef<HTMLInputElement>();
 
-	useEffect(() => {
-		const apiKey = getApiKey();
-		if (apiKey) {
-			setApiKeyLocal(apiKey);
-		}
-	}, [apiKeyEl.current]);
+	// useEffect(() => {
+	// 	getApiKey().then((apiKey) => {
+	// 		if (apiKey) {
+	// 			setApiKeyLocal(apiKey);
+	// 		}
+	// 	});
+	// }, [apiKeyEl.current]);
 
 	// useEffect(() => {
 	// 	const asyncFunc = async () => {
@@ -43,18 +43,18 @@ const RightPane = ({ onPaneClick, style = null }) => {
 					</Form.Select>
 				</Form.Group>
 				<Form.Group className="buddy-bs-group mb-3">
-					<Form.Label bsPrefix="buddy-bs-label">API Key</Form.Label>
+					<div className="buddy-bs-label--wrapper">
+						<Form.Label bsPrefix="buddy-bs-label">API key</Form.Label>
+						<span className="buddy-bs-label--value" onClick={onApiKeyEdit}>
+							edit
+						</span>
+					</div>
 					<Form.Control
 						type="text"
 						bsPrefix="buddy-bs-control"
 						placeholder="Enter your API Key"
-						ref={apiKeyEl}
-						value={apiKeyLocal}
-						onChange={(e) => {
-							console.log('setting: ', e.target.value);
-							setApiKeyLocal(e.target.value);
-							setApiKey(e.target.value);
-						}}
+						value={apiKey}
+						disabled
 					></Form.Control>
 				</Form.Group>
 				<Form.Group className="buddy-bs-group mb-3">

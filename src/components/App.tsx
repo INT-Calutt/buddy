@@ -2,11 +2,23 @@ import React, { useState, useEffect } from 'react';
 import LeftPane from './LeftPane';
 import MainView from './MainView';
 import RightPane from './RightPane';
+import { getAvailableModels, getModel, setModel, getApiKey, setApiKey as setApiKeyInStorage } from '../scripts/openai';
 
 const App = () => {
 	const [show, setShow] = useState(false);
 	const [leftPaneOpen, setLeftPaneOpen] = useState(false);
 	const [rightPaneOpen, setRightPaneOpen] = useState(true);
+	const [insertApiKey, setInsertApiKey] = useState(true);
+	const [apiKey, setApiKey] = useState('');
+
+	useEffect(() => {
+		getApiKey().then((apiKey) => {
+			if (apiKey) {
+				setApiKey(apiKey);
+				setInsertApiKey(false);
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		const shortcut = (event: KeyboardEvent) => {
@@ -38,6 +50,16 @@ const App = () => {
 		}
 	};
 
+	const handleApiKeyEdit = () => {
+		setInsertApiKey(!insertApiKey);
+	};
+
+	const handleUseKey = (apiKeyValue) => {
+		setApiKeyInStorage(apiKeyValue);
+		setApiKey(apiKeyValue);
+		setInsertApiKey(false);
+	};
+
 	return (
 		<>
 			<div
@@ -50,12 +72,20 @@ const App = () => {
 						if (!leftPaneOpen) setShow(false);
 					}}
 				/>
-				<MainView lpo={leftPaneOpen} rpo={rightPaneOpen} onPaneClick={handlePaneClick} />
+				<MainView
+					lpo={leftPaneOpen}
+					rpo={rightPaneOpen}
+					onPaneClick={handlePaneClick}
+					insertApiKey={insertApiKey}
+					onUseKey={handleUseKey}
+				/>
 				<RightPane
 					style={rightPaneOpen ? { opacity: 1 } : { opacity: 0 }}
 					onPaneClick={() => {
 						if (!rightPaneOpen) setShow(false);
 					}}
+					onApiKeyEdit={handleApiKeyEdit}
+					apiKey={apiKey}
 				/>
 			</div>
 			<div

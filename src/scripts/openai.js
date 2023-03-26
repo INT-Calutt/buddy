@@ -229,20 +229,62 @@ export function clearChatHistory() {
 	chatHistory = [];
 }
 
-export function setModel(model) {
-	localStorage.setItem(OPENAI_MODEL_STORAGE, model);
+export async function setModel(model) {
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			type: 'set',
+			key: OPENAI_MODEL_STORAGE,
+			value: model,
+		});
+	});
+	return await p;
 }
 
-export function getModel() {
-	return localStorage.getItem(OPENAI_MODEL_STORAGE);
+export async function getModel() {
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			type: 'get',
+			key: OPENAI_MODEL_STORAGE,
+		});
+	});
+	return await p;
 }
 
-export function setApiKey(api_key) {
-	localStorage.setItem(OPENAI_API_KEY_STORAGE, api_key);
+export async function setApiKey(api_key) {
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			type: 'set',
+			key: OPENAI_API_KEY_STORAGE,
+			value: api_key,
+		});
+	});
+	return await p;
 }
 
-export function getApiKey() {
-	return localStorage.getItem(OPENAI_API_KEY_STORAGE);
+export async function getApiKey() {
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			type: 'get',
+			key: OPENAI_API_KEY_STORAGE,
+		});
+	});
+	return await p;
 }
 
 function getHeaders(api_key) {
@@ -272,7 +314,7 @@ async function _getAvailableModels(apiKey) {
 }
 
 export async function getAvailableModels() {
-	let apiKey = getApiKey();
+	let apiKey = await getApiKey();
 
 	if (apiKey === null) {
 		throw 'apikey needs to be set';
@@ -297,8 +339,8 @@ async function _sendToOpenAIChatCompletionAndReturnChoiceMessage(apiKey, model, 
 }
 
 export async function answerPrompt(prompt, context = null, useHistory = true) {
-	let apiKey = getApiKey();
-	let model = getModel();
+	let apiKey = await getApiKey();
+	let model = 'gpt-3.5-turbo'; // await getModel();
 
 	if (apiKey === null || model === null) {
 		throw 'apikey and model needs to be set';
@@ -328,15 +370,15 @@ export async function answerPrompt(prompt, context = null, useHistory = true) {
 	return responseMessage['content'];
 }
 
-export function streamResponseFromOpenAI(
+export async function streamResponseFromOpenAI(
 	prompt,
 	newContentCallback = (r) => {},
 	context = null,
 	useHistory = true,
 	newPartialContentCallback = null
 ) {
-	let apiKey = getApiKey();
-	let model = getModel();
+	let apiKey = await getApiKey();
+	let model = 'gpt-3.5-turbo'; //await getModel();
 
 	if (apiKey === null || model === null) {
 		throw 'apikey and model needs to be set';
