@@ -20,7 +20,7 @@ const root = createRoot(shadowRoot);
 
 root.render(
 	<React.StrictMode>
-		{/* <style>{'.buddy-app { background: red }'}</style> */}
+		<style>{'.buddy-app { background: red }'}</style>
 		<App />
 	</React.StrictMode>
 );
