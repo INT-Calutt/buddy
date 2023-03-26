@@ -9,10 +9,11 @@ const RightPane = ({ onApiKeyEdit, onPaneClick, style = null }) => {
 	const apiKeyEl = useRef<HTMLInputElement>();
 
 	useEffect(() => {
-		const apiKey = getApiKey();
-		if (apiKey) {
-			setApiKeyLocal(apiKey);
-		}
+		getApiKey().then((apiKey) => {
+			if (apiKey) {
+				setApiKeyLocal(apiKey);
+			}
+		});
 	}, [apiKeyEl.current]);
 
 	// useEffect(() => {

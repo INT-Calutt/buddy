@@ -229,20 +229,62 @@ export function clearChatHistory() {
 	chatHistory = [];
 }
 
-export async  function setModel(model) {
-	await chrome.storage.local.set({OPENAI_MODEL_STORAGE: model});
+export async function setModel(model) {
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			'type': 'set',
+			'key': OPENAI_MODEL_STORAGE,
+			'value': model
+		})
+	})
+	return await p;
 }
 
 export async function getModel() {
-	return await chrome.storage.local.get(OPENAI_MODEL_STORAGE);
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			'type': 'get',
+			'key': OPENAI_MODEL_STORAGE
+		})
+	})
+	return await p;
 }
 
 export async function setApiKey(api_key) {
-	await chrome.storage.local.set({OPENAI_API_KEY_STORAGE: api_key});
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			'type': 'set',
+			'key': OPENAI_API_KEY_STORAGE,
+			'value': api_key
+		})
+	})
+	return await p;
 }
 
 export async function getApiKey() {
-	return await chrome.storage.local.get(OPENAI_API_KEY_STORAGE);
+	let p = new Promise((resolve, reject) => {
+		let port = chrome.runtime.connect();
+		port.onMessage.addListener((apiKey) => {
+			resolve(apiKey);
+		});
+		port.postMessage({
+			'type': 'get',
+			'key': OPENAI_API_KEY_STORAGE
+		})
+	})
+	return await p;
 }
 
 function getHeaders(api_key) {
