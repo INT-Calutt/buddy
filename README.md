@@ -1,6 +1,6 @@
 # Buddy
 
-Buddy - a fun open source cmd+b interface to OpenAI’s API.
+Buddy - open source cmdk interface to OpenAI’s API.
 
 We got tired of searching both the chat and playground tabs of OpenAI every time we had a question, and quite annoyed when the free research preview did not work for a day. We searched for a simple interface to the chat API and found many paid extensions that sell buckets of queries for some $/mo, which there is no way we were gonna use, so we just built this.
 
