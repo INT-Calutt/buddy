@@ -19,7 +19,32 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
-				use: ['style-loader', 'css-loader', 'sass-loader'],
+				use: [
+					{
+						loader: 'style-loader',
+						options: {
+							// insert: function (element) {
+							// 	let existingStyle = document.getElementById('yadoyadoyado');
+							// 	//existingStyle.innerHTML = element.innerHTML;
+
+							// 	if (existingStyle) {
+							// 		existingStyle.innerHTML = element.innerHTML;
+							// 	  }
+							// 	  // If it doesn't exist, create a new <style> element
+							// 	  else {
+							// 		element.setAttribute('id', 'yadoyadoyado');
+							// 		document.head.appendChild(element);
+							// 	  }
+							// }
+							injectType: "singletonStyleTag",
+							attributes: {
+								id: "yadoyadoyado"
+							}
+						}
+					}, 
+					'css-loader', 
+					'sass-loader'
+				],
 				test: /\.s[ac]ss$/i,
 			},
 			{

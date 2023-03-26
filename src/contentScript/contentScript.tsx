@@ -6,6 +6,7 @@ import App from '../components/App';
 const body = document.querySelector('body');
 
 const app = document.createElement('div');
+app.setAttribute('style', "all: unset;");
 
 app.id = 'buddy-root-23323';
 
@@ -14,13 +15,20 @@ if (body) {
 }
 
 const container = document.getElementById('buddy-root-23323');
-const shadowRoot = container.attachShadow({ mode: 'open' });
 
-const root = createRoot(shadowRoot);
+let y = document.getElementById("yadoyadoyado").innerHTML;
+document.getElementById("yadoyadoyado").remove();
+app.id = 'buddy-root-23324'; 
+
+let shadowContainer = container.attachShadow({mode: "closed"});
+
+const root = createRoot(shadowContainer);
 
 root.render(
 	<React.StrictMode>
-		<style>{'.buddy-app { background: red }'}</style>
-		<App />
+		<div id='buddy-root-23323' style={{all:"unset"}}>
+			<style>{y}</style>
+			<App />
+		</div>
 	</React.StrictMode>
 );
