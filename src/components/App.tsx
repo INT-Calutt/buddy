@@ -61,7 +61,7 @@ const App = () => {
 		const shortcut = (event: KeyboardEvent) => {
 			let universalCtrlPressed = false;
 			if (navigator.userAgent.indexOf('Mac') !== -1) {
-				universalCtrlPressed = event.metaKey;
+				universalCtrlPressed = event.ctrlKey;
 			} else {
 				universalCtrlPressed = event.ctrlKey;
 			}
