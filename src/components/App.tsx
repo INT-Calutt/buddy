@@ -61,7 +61,7 @@ const App = () => {
 			} else {
 				universalCtrlPressed = event.ctrlKey;
 			}
-			if (universalCtrlPressed && (event.key === 'b' || event.key === 'B')) {
+			if (universalCtrlPressed && (event.key === 'm' || event.key === 'M')) {
 				setShow(!show);
 			}
 		};
