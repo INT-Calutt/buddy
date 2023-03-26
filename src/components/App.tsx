@@ -7,6 +7,7 @@ const App = () => {
 	const [show, setShow] = useState(false);
 	const [leftPaneOpen, setLeftPaneOpen] = useState(false);
 	const [rightPaneOpen, setRightPaneOpen] = useState(true);
+	const [insertApiKey, setInsertApiKey] = useState(true);
 
 	useEffect(() => {
 		const shortcut = (event: KeyboardEvent) => {
@@ -38,6 +39,10 @@ const App = () => {
 		}
 	};
 
+	const handleApiKeyEdit = () => {
+		setInsertApiKey(!insertApiKey);
+	};
+
 	return (
 		<>
 			<div
@@ -50,12 +55,18 @@ const App = () => {
 						if (!leftPaneOpen) setShow(false);
 					}}
 				/>
-				<MainView lpo={leftPaneOpen} rpo={rightPaneOpen} onPaneClick={handlePaneClick} />
+				<MainView
+					lpo={leftPaneOpen}
+					rpo={rightPaneOpen}
+					onPaneClick={handlePaneClick}
+					insertApiKey={insertApiKey}
+				/>
 				<RightPane
 					style={rightPaneOpen ? { opacity: 1 } : { opacity: 0 }}
 					onPaneClick={() => {
 						if (!rightPaneOpen) setShow(false);
 					}}
+					onApiKeyEdit={handleApiKeyEdit}
 				/>
 			</div>
 			<div

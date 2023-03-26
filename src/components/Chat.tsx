@@ -11,8 +11,9 @@ import {
 	convertOpenAIAPIAnswerToCodeTags,
 } from '../scripts/openai.js';
 import hljs from 'highlight.js';
+import { Form } from 'react-bootstrap';
 
-const Chat = () => {
+const Chat = ({ insertApiKey }) => {
 	const inputEl = useRef<HTMLInputElement>();
 	const textBoxEl = useRef<HTMLInputElement>();
 	const [question, setQuestion] = useState('');
@@ -139,27 +140,51 @@ const Chat = () => {
 		});
 	};
 
+	const renderTextBox = () => {
+		if (insertApiKey) {
+			//add: || noApiKey
+			return (
+				<div className="chat__enter-key">
+					<Form.Control
+						type="text"
+						bsPrefix="buddy-bs-control"
+						placeholder="Enter your OpenAI's API key"
+					></Form.Control>
+					<button className="chat__button">Use this key</button>
+				</div>
+			);
+		} else {
+			return (
+				<>
+					{!question && !answer && (
+						<div className="chat__placeholder">Hey, I'm your buddy - ask me anything!</div>
+					)}
+					{renderQA()}
+					<div className="chat__question">{question}</div>
+					{answer && <div className="chat__answer current">{answer}</div>}
+				</>
+			);
+		}
+	};
+
 	return (
 		<div className="chat">
 			<div className="chat__text-box" ref={textBoxEl}>
-				{!question && !answer && (
-					<div className="chat__placeholder">Hey, I'm your buddy - ask me anything!</div>
-				)}
-				{renderQA()}
-				<div className="chat__question">{question}</div>
-				{answer && <div className="chat__answer current">{answer}</div>}
+				{renderTextBox()}
 			</div>
-			<button
-				className="chat__stop"
-				onClick={() => {
-					try {
-						console.log('Stopping');
-						stopResponse();
-					} catch (e) {}
-				}}
-			>
-				Stop response
-			</button>
+			{answer && (
+				<button
+					className="chat__button"
+					onClick={() => {
+						try {
+							console.log('Stopping');
+							stopResponse();
+						} catch (e) {}
+					}}
+				>
+					Stop response
+				</button>
+			)}
 			<div className="chat__prompt">
 				<input type="text" className="chat__input" ref={inputEl} />
 				<div className="chat__input-icon">

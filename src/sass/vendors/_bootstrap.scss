@@ -19,7 +19,11 @@
 	border-radius: 5px;
 
 	&::placeholder {
-		color: rgba(white, 0.85);
+		color: rgba(white, 0.8);
+	}
+
+	&:disabled {
+		color: rgba(white, 0.8);
 	}
 }
 
@@ -30,6 +34,22 @@
 
 .buddy-bs-label {
 	font-size: 14px;
+
+	&--wrapper {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&--value {
+		font-size: 14px;
+		margin-right: 6%;
+		cursor: pointer;
+		color: rgba(white, 0.8);
+
+		&:hover {
+			color: white;
+		}
+	}
 }
 
 .buddy-bs-label + .buddy-bs-select,
