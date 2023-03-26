@@ -27,12 +27,12 @@ $background-default: #f6f7fb;
 
 $menu-width: 200px;
 
-$margin-base: 2rem;
-$margin-double: 4rem;
-$margin-rect: 2rem 4rem;
+$margin-base: 32px;
+$margin-double: 64px;
+$margin-rect: 32px 64px;
 
-$padding-base: 2rem;
-$padding-rect: 2rem 4rem;
+$padding-base: 32px;
+$padding-rect: 32px 64px;
 
 $linear-gradient-base: linear-gradient(115deg, darken(#f3f7fc, 2%) 0%, darken(#e0e4ef, 2%) 74%);
 
@@ -44,7 +44,7 @@ $shadow-default: 0px 3px 12px #e6e9ef;
 $bs-gray: #212529;
 
 $polygon: polygon(50% 0%, 5% 25%, 5% 75%, 50% 100%, 95% 75%, 95% 25%);
-$integration-size: 4.5rem;
+$integration-size: 72px;
 
 $shadow-1: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 $shadow-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;

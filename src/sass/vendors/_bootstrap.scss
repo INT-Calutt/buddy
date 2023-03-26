@@ -17,6 +17,7 @@
 	font-size: 14px;
 	border: 1px solid #767676;
 	border-radius: 5px;
+	box-sizing: border-box;
 
 	&::placeholder {
 		color: rgba(white, 0.8);
@@ -34,6 +35,7 @@
 
 .buddy-bs-label {
 	font-size: 14px;
+	color: white;
 
 	&--wrapper {
 		display: flex;
@@ -54,11 +56,11 @@
 
 .buddy-bs-label + .buddy-bs-select,
 .buddy-bs-label + .buddy-bs-control {
-	margin-top: 0.3rem;
+	margin-top: 5px;
 }
 
 .buddy-bs-range {
-	margin-top: 0.2rem;
+	margin-top: 3px;
 
 	&--wrapper {
 		display: flex;

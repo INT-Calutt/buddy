@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TrashIcon from '../images/trash.svg';
 import SendIcon from '../images/send.svg';
-import { streamResponseFromOpenAI, chatHistory, clearChatHistory, setApiKey } from '../scripts/openai.js';
+import {
+	streamResponseFromOpenAI,
+	chatHistory,
+	clearChatHistory,
+	setApiKey,
+	convertOpenAIAPIAnswerToCodeTags,
+} from '../scripts/openai.js';
 import hljs from 'highlight.js';
 import { Form } from 'react-bootstrap';
 
@@ -14,12 +20,12 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 	const [stopResponse, setStopResponse] = useState<Function>();
 	const [apiKeyValue, setApiKeyValue] = useState('');
 
-	// useEffect(() => {
-	// 	if (answer) {
-	// 		document.querySelector('.chat__answer.current').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
-	// 		hljs.highlightAll();
-	// 	}
-	// }, [answer]);
+	useEffect(() => {
+		if (answer) {
+			document.querySelector('.chat__answer.current').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
+			hljs.highlightAll();
+		}
+	}, [answer]);
 
 	useEffect(() => {
 		if (textBoxEl.current) {

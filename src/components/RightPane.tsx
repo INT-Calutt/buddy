@@ -36,13 +36,13 @@ const RightPane = ({ onApiKeyEdit, apiKey, onPaneClick, style = null }) => {
 	return (
 		<div className="pane pane--right" onClick={onPaneClick} style={style}>
 			<Form>
-				<Form.Group className="buddy-bs-group mb-3">
+				<Form.Group className="buddy-bs-group">
 					<Form.Label bsPrefix="buddy-bs-label">Service provider</Form.Label>
 					<Form.Select bsPrefix="buddy-bs-select">
 						<option>OpenAI</option>
 					</Form.Select>
 				</Form.Group>
-				<Form.Group className="buddy-bs-group mb-3">
+				<Form.Group className="buddy-bs-group">
 					<div className="buddy-bs-label--wrapper">
 						<Form.Label bsPrefix="buddy-bs-label">API key</Form.Label>
 						<span className="buddy-bs-label--value" onClick={onApiKeyEdit}>
@@ -57,13 +57,13 @@ const RightPane = ({ onApiKeyEdit, apiKey, onPaneClick, style = null }) => {
 						disabled
 					></Form.Control>
 				</Form.Group>
-				<Form.Group className="buddy-bs-group mb-3">
+				<Form.Group className="buddy-bs-group">
 					<Form.Label bsPrefix="buddy-bs-label">Mode</Form.Label>
 					<Form.Select bsPrefix="buddy-bs-select">
 						<option>Complete</option>
 					</Form.Select>
 				</Form.Group>
-				<Form.Group className="buddy-bs-group mb-3">
+				<Form.Group className="buddy-bs-group">
 					<Form.Label bsPrefix="buddy-bs-label">Model</Form.Label>
 					<Form.Select
 						bsPrefix="buddy-bs-select"

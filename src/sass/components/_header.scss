@@ -1,12 +1,12 @@
 .header {
 	display: flex;
-	padding: 0.5rem;
+	padding: 8px;
 	border-bottom: $border-dark-theme;
 	justify-content: space-between;
 	align-items: center;
 
 	& svg {
-		margin: 0 0.3rem;
+		margin: 0 5px;
 		cursor: pointer;
 	}
 
