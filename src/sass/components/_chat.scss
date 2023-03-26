@@ -84,8 +84,16 @@
 	}
 
 	&__answer {
+		position: relative;
 		padding: 16px;
 		background-color: #334155;
 		white-space: pre-line;
+	}
+
+	&__copy {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		cursor: pointer;
 	}
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TrashIcon from '../images/trash.svg';
 import SendIcon from '../images/send.svg';
+import CopyIcon from '../images/copy.svg';
 import {
 	streamResponseFromOpenAI,
 	chatHistory,
@@ -11,18 +12,27 @@ import {
 import hljs from 'highlight.js';
 import { Form } from 'react-bootstrap';
 
+function isHebrew(text: string) {
+	var hebrewRegex = /[\u0590-\u05FF\uFB1D-\uFB4F]/;
+	if (text.length > 5) {
+		hebrewRegex.test(text.substring(0, 4));
+	}
+	return hebrewRegex.test(text);
+}
+
 const Chat = ({ insertApiKey, onUseKey }) => {
 	const inputEl = useRef<HTMLInputElement>();
 	const textBoxEl = useRef<HTMLInputElement>();
 	const [question, setQuestion] = useState('');
 	const [questionHistory, setQuestionHistory] = useState([]);
 	const [answer, setAnswer] = useState('');
+	const [convertedAnswer, setconvertedAnswer] = useState('');
 	const [stopResponse, setStopResponse] = useState<Function>();
 	const [apiKeyValue, setApiKeyValue] = useState('');
 
 	useEffect(() => {
 		if (answer) {
-			document.querySelector('.chat__answer.current').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
+			document.querySelector('.chat__answer.current > p').innerHTML = convertOpenAIAPIAnswerToCodeTags(answer);
 			hljs.highlightAll();
 		}
 	}, [answer]);
@@ -30,6 +40,14 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 	useEffect(() => {
 		if (textBoxEl.current) {
 			textBoxEl.current.scrollBy(0, 10);
+		}
+		const answerEl: HTMLElement = document.querySelector('.chat__answer.current');
+		if (answerEl) {
+			if (isHebrew(answer) && answerEl.style.direction !== 'ltr') {
+				answerEl.style.direction = 'rtl';
+			} else if (answerEl.style.direction === 'rtl') {
+				answerEl.style.direction = 'ltr';
+			}
 		}
 	}, [textBoxEl.current, answer]);
 
@@ -170,7 +188,17 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 					)}
 					{renderQA()}
 					{/* <div className="chat__question">{question}</div> */}
-					{answer && <div className="chat__answer current">{answer}</div>}
+					{answer && (
+						<div className="chat__answer current">
+							<CopyIcon
+								className="icon path--fill chat__copy"
+								onClick={() => {
+									navigator.clipboard.writeText(answer);
+								}}
+							/>
+							<p>{answer}</p>
+						</div>
+					)}
 				</>
 			);
 		}

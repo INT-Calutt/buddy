@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Buddy",
-	"description": "Your AI Buddy",
+	"description": "Your AI Buddy. Our Privacy Policy can be seen here: https://www.tailorr.io/privacy",
 	"version": "1.0.0",
 	"action": {
 		"default_popup": "popup.html",

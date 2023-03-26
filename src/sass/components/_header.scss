@@ -4,6 +4,8 @@
 	border-bottom: $border-dark-theme;
 	justify-content: space-between;
 	align-items: center;
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
 
 	& svg {
 		margin: 0 5px;

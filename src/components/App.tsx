@@ -4,12 +4,45 @@ import MainView from './MainView';
 import RightPane from './RightPane';
 import { getAvailableModels, getModel, setModel, getApiKey, setApiKey as setApiKeyInStorage } from '../scripts/openai';
 
+function makeDraggable(draggable, handle) {
+	var posX = 0,
+		posY = 0,
+		mouseX = 0,
+		mouseY = 0;
+
+	handle.addEventListener('mousedown', function (e) {
+		e.preventDefault();
+		posX = e.clientX - draggable.offsetLeft;
+		posY = e.clientY - draggable.offsetTop;
+		document.addEventListener('mousemove', mousemove);
+		document.addEventListener('mouseup', mouseup);
+	});
+
+	function mousemove(e) {
+		mouseX = e.clientX - posX;
+		mouseY = e.clientY - posY;
+		draggable.style.left = mouseX + 'px';
+		draggable.style.top = mouseY + 'px';
+	}
+
+	function mouseup() {
+		document.removeEventListener('mousemove', mousemove);
+		document.removeEventListener('mouseup', mouseup);
+	}
+}
+
 const App = () => {
 	const [show, setShow] = useState(false);
 	const [leftPaneOpen, setLeftPaneOpen] = useState(false);
 	const [rightPaneOpen, setRightPaneOpen] = useState(true);
 	const [insertApiKey, setInsertApiKey] = useState(true);
 	const [apiKey, setApiKey] = useState('');
+
+	useEffect(() => {
+		var draggableDiv = document.querySelector('.buddy-app');
+		var handleDiv = document.querySelector('.buddy-app .header');
+		makeDraggable(draggableDiv, handleDiv);
+	}, []);
 
 	useEffect(() => {
 		getApiKey().then((apiKey) => {
