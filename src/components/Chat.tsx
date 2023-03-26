@@ -197,9 +197,7 @@ const Chat = ({ insertApiKey, onUseKey }) => {
 		} else {
 			return (
 				<>
-					{!question && !answer && (
-						<div className="chat__placeholder">Hey, I'm your buddy - ask me anything!</div>
-					)}
+					{!question && !answer && <div className="chat__placeholder">What's on your mind?</div>}
 					{renderQA()}
 					{/* <div className="chat__question">{question}</div> */}
 					{answer && (
