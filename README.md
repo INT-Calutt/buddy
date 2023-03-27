@@ -8,27 +8,29 @@ We just wanted a simple interface to OpenAI’s API and only found paid extensio
 
 # **Getting started**
 
-1. Clone the repo install dependencies with `npm install` and `npm run build`)) || ([download](https://github.com/INT-Calutt/buddy/releases/) build.zip and unzip).
-2. Go to chrome://extensions -> Developer mode and -> Load unpacked -> choode the unziped folder.
-3. Open a new tab, press ctrl/cmd+m, enter your API key and you're good to go.
+1. Clone the repository, install dependencies with `npm install`, and run `npm run build`. Alternatively, you can download the `build.zip` file from [here](https://github.com/INT-Calutt/buddy/releases/) and unzip it.
+2. Go to `chrome://extensions`, enable Developer Mode and choose `Load unpacked` option. Then, select the unzipped folder.
+3. Open a new tab, press `ctrl+m` (on both Mac and Windows), enter your API key, and you’re ready to go.
 
-Note that besides calling OpenAI’s API, **everything runs locally on your browser.** 
+Note that besides calling OpenAI’s API, **everything runs locally on your browser**.
 
-# **Roadamp**
+# **Roadmap**
 
-- add conversations history
-- support multiple models
-- add playground mode
-- control API parameters like temperature
-- mark web text to load it as context
-- choose the colors of the interface
-- incognito mode to disable history
-- count tokens in prompt and completion.
-- add presets functionality
-- more shortcuts
+- Add conversation history.
+- Support multiple models.
+- Add playground mode.
+- Control API parameters such as temperature.
+- Ability to mark web text and load it as context.
+- Customize interface colors.
+- Implement an incognito mode to disable history.
+- Count tokens within the prompt and completion.
+- Allow users to create custom presets.
+- Add more shortcuts.
 
 # This is a pre-release version
 
-There’s a lot to fix and polish, but we’ve used it a lot for the past two days and really enjoy it (we stopped using [https://chat.openai.com/chat](https://chat.openai.com/chat)). 
+There is a lot to fix and polish, but we have been using Buddy a lot for the past two days and we are really enjoying it. (we stopped using [https://chat.openai.com/chat](https://chat.openai.com/chat)).
 
-Hope you'll enjoy it too :)
+Pro tip - We also substituted our paid Grammarly account with three simple presets that you can load from Buddy's header. :)
+
+Hope you'll enjoy it too!
